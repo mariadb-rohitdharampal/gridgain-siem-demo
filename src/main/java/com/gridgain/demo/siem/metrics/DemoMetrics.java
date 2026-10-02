@@ -93,7 +93,7 @@ public record DemoMetrics(
 
     public String toReport() {
         StringBuilder report = new StringBuilder();
-        report.append("GridGain SIEM Reduction Demo").append(System.lineSeparator());
+        report.append("MariaDB GridGain SIEM Reduction Demo").append(System.lineSeparator());
         report.append("======================================").append(System.lineSeparator());
         report.append("Reducer mode: ").append(reducerMode).append(System.lineSeparator());
         report.append("Pipeline: pre-SIEM optimization simulation, no Kafka broker, no SQL, no persistence").append(System.lineSeparator());

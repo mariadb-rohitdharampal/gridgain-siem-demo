@@ -1,30 +1,30 @@
-# GridGain SIEM Reduction Reference Architecture
+# MariaDB GridGain SIEM Reduction Reference Architecture
 
 ## Executive Summary
 
 This repository is an **SIEM Optimization Reference Architecture and
-Reference Implementation**. It demonstrates how Kafka, GridGain, and a
+Reference Implementation**. It demonstrates how Kafka, MariaDB GridGain, and a
 continuous reduction service can reduce SIEM-bound telemetry before it reaches
 Splunk, Elastic, or another downstream SIEM.
 
-Kafka transports raw and clean telemetry events. GridGain 8 maintains
+Kafka transports raw and clean telemetry events. MariaDB GridGain 8 maintains
 Distributed Reduction State across a local three-node embedded cluster.
 Security-relevant events bypass reduction and are preserved. Clean Kafka topics
 carry reduced telemetry to the downstream SIEM, while a live operational
-dashboard shows reduction, security preservation, GridGain proof metrics, and
+dashboard shows reduction, security preservation, MariaDB GridGain proof metrics, and
 business impact.
 
 ## Project Status
 
 **Status:** Reference Implementation Complete (v1.0.0)
 
-This repository contains the completed reference implementation of the SIEM Optimization Reference Architecture. It validates the architecture using real Kafka, GridGain 8 distributed reduction state, continuous stream processing, and a live operational dashboard.
+This repository contains the completed reference implementation of the SIEM Optimization Reference Architecture. It validates the architecture using real Kafka, MariaDB GridGain 8 distributed reduction state, continuous stream processing, and a live operational dashboard.
 
 ## What This Repository Demonstrates
 
 - Real Kafka ingestion and publication.
 - Continuous streaming reduction.
-- GridGain 8 Distributed Reduction State.
+- MariaDB GridGain 8 Distributed Reduction State.
 - Distributed ownership proof.
 - Security-event preservation.
 - Live operational dashboard.
@@ -41,7 +41,7 @@ security configuration, and operational observability.
 
 ![SIEM Reduction Demo Architecture](docs/images/siem-reduction-architecture.png)
 
-The diagram shows telemetry sources, Kafka raw topics, the GridGain-backed
+The diagram shows telemetry sources, Kafka raw topics, the MariaDB GridGain-backed
 reduction layer, Kafka clean topics, downstream SIEM consumption, and the
 dashboard/business impact view.
 
@@ -54,7 +54,7 @@ Telemetry Sources
   -> Kafka Raw Topics
   -> Continuous Kafka Consumer
   -> Window Assignment
-  -> GridGain 8 Distributed Reduction Layer
+  -> MariaDB GridGain 8 Distributed Reduction Layer
   -> Kafka Clean Topics
   -> SIEM
   -> Live Dashboard
@@ -63,7 +63,7 @@ Telemetry Sources
 Separation of responsibilities:
 
 - Kafka transports telemetry.
-- GridGain 8 maintains Distributed Reduction State.
+- MariaDB GridGain 8 maintains Distributed Reduction State.
 - The SIEM remains the downstream system of record.
 
 Synthetic telemetry generators produce firewall CEF, DNS syslog, Windows Active
@@ -73,18 +73,18 @@ events to time windows, preserves security-relevant events immediately, reduces
 repetitive benign events by Reduction Key, and publishes clean output to
 `clean-*` topics.
 
-## Why GridGain?
+## Why MariaDB GridGain?
 
-GridGain demonstrates Distributed Reduction State shared across a cluster.
+MariaDB GridGain demonstrates Distributed Reduction State shared across a cluster.
 That differentiates the reference implementation from a single-process cache:
 state ownership, backup ownership, touched partitions, and local cache entries
 can be shown across multiple embedded nodes. This complements Kafka's role as
-the event transport layer; GridGain does not replace Kafka, and Kafka does not
+the event transport layer; MariaDB GridGain does not replace Kafka, and Kafka does not
 provide the shared in-memory reduction state shown here.
 
 The current reference implementation demonstrates this pattern locally with an
-embedded three-node GridGain 8-compatible cluster. It validates the architecture
-before adding production deployment packaging or GridGain Enterprise runtime
+embedded three-node MariaDB GridGain 8-compatible cluster. It validates the architecture
+before adding production deployment packaging or MariaDB GridGain Enterprise runtime
 artifacts.
 
 ## Why This Matters
@@ -107,7 +107,7 @@ arriving at Splunk, Elastic, or another SIEM.
 | Continuous Kafka Processing | Complete |
 | Distributed Reduction Engine | Complete |
 | Distributed Reduction State | Complete |
-| 3-node Embedded GridGain 8 Cluster | Complete |
+| 3-node Embedded MariaDB GridGain 8 Cluster | Complete |
 | Distributed Ownership Proof | Complete |
 | Security Event Preservation | Complete |
 | Windowed Streaming Processing | Complete |
@@ -118,7 +118,7 @@ arriving at Splunk, Elastic, or another SIEM.
 
 | Enhancement | Status |
 |-------------|--------|
-| Multi-host GridGain cluster | Future |
+| Multi-host MariaDB GridGain cluster | Future |
 | Kubernetes deployment | Future |
 | TLS/SASL Kafka security | Future |
 | Prometheus/Grafana/OpenTelemetry integration | Future |
@@ -133,8 +133,8 @@ arriving at Splunk, Elastic, or another SIEM.
 - Continuous reducer mode with graceful Ctrl+C shutdown.
 - Windowed streaming reduction with configurable window size.
 - Security-relevant events bypass reduction and are counted separately.
-- Three-node embedded GridGain 8 cluster for Distributed Reduction State.
-- Distributed ownership proof across embedded GridGain nodes.
+- Three-node embedded MariaDB GridGain 8 cluster for Distributed Reduction State.
+- Distributed ownership proof across embedded MariaDB GridGain nodes.
 - Static dashboard for direct and simulated modes.
 - Embedded live HTTP dashboard for continuous real Kafka mode.
 - Business impact estimates for TB/day saved, monthly savings, and retention
@@ -149,7 +149,7 @@ arriving at Splunk, Elastic, or another SIEM.
 | Kafka Simulation + Streaming | `--mode kafka-sim --streaming --window-seconds 60` | Simulates time-windowed telemetry processing. |
 | Real Kafka Producer | `--mode kafka-produce` | Writes generated events to real Kafka raw topics. |
 | Real Kafka Reducer | `--mode kafka-reduce` | Bounded or continuous raw-topic consumer, windowed reducer, and clean-topic publisher. |
-| GridGain Mode | `--reducer gridgain` | Uses the GridGain-based reducer with three embedded local nodes. |
+| MariaDB GridGain Mode | `--reducer gridgain` | Uses the MariaDB GridGain-based reducer with three embedded local nodes. |
 | Live Dashboard | `--mode kafka-reduce --continuous --dashboard` | Starts the local live dashboard for continuous Kafka mode. |
 
 ## Live Operational Dashboard
@@ -169,7 +169,7 @@ http://localhost:8080/
 The live dashboard uses Java's built-in `HttpServer` and no external web
 framework. It shows records seen, valid consumed events, produced clean events,
 reduction percentage, malformed records, security preservation, windows
-processed, open windows, raw and clean topic counts, GridGain node/cache proof
+processed, open windows, raw and clean topic counts, MariaDB GridGain node/cache proof
 metrics, and distributed ownership proof.
 
 The dashboard is local demo visibility only. It has no authentication, no TLS,
@@ -185,15 +185,15 @@ target/demo-dashboard.html
 ```
 
 The static dashboard includes raw vs reduced event bars, topic metrics, window
-metrics, GridGain proof metrics, business impact estimates, embedded JSON data,
+metrics, MariaDB GridGain proof metrics, business impact estimates, embedded JSON data,
 and small local JavaScript for section toggles. No web server is required.
 
 ## Sample Console Output
 
-Representative output from GridGain mode:
+Representative output from MariaDB GridGain mode:
 
 ```text
-GridGain SIEM Reduction Demo
+MariaDB GridGain SIEM Reduction Demo
 Reducer mode: gridgain / embedded Apache Ignite
 Ignite Proof Metrics
 - cache name: siem-reduction-state
@@ -264,10 +264,10 @@ are not included.
 - Second proof point: security-relevant events are preserved.
 - Third proof point: reduced ingest volume creates more infrastructure headroom
   and supports longer searchable retention in Splunk, Elastic, or another SIEM.
-- Technical proof point: GridGain mode shows Distributed Reduction State
+- Technical proof point: MariaDB GridGain mode shows Distributed Reduction State
   and distributed ownership proof, which is stronger than a local Java cache for
   high-volume shared-state processing.
-- Positioning: Kafka transports telemetry, GridGain 8 maintains Distributed
+- Positioning: Kafka transports telemetry, MariaDB GridGain 8 maintains Distributed
   Reduction State, and the SIEM remains the downstream system of record.
 
 ## Repository Structure
@@ -334,16 +334,16 @@ mvn test
 
 1. Show the architecture diagram.
 2. Explain the separation of responsibilities: Kafka transports telemetry,
-   GridGain 8 maintains Distributed Reduction State, and the SIEM remains
+   MariaDB GridGain 8 maintains Distributed Reduction State, and the SIEM remains
    the downstream system of record.
 3. Produce synthetic events to Kafka raw topics.
 4. Run the continuous reducer with the live dashboard.
 5. Review raw events, clean events, reduction percentage, malformed records,
    and security-event preservation.
-6. Show GridGain proof metrics: three embedded nodes, partitioned cache, backup
+6. Show MariaDB GridGain proof metrics: three embedded nodes, partitioned cache, backup
    count, and distributed ownership proof.
 7. Open `http://localhost:8080/` and review live operational metrics.
-8. Discuss the future roadmap for multi-host GridGain, enterprise security,
+8. Discuss the future roadmap for multi-host MariaDB GridGain, enterprise security,
    Kubernetes, production observability, and SIEM integration.
 
 ## Implementation Notes
@@ -352,9 +352,9 @@ Security-relevant events bypass reduction and are reported separately. The
 console report prints a warning if the preserved security-relevant event count
 is ever lower than the observed security-relevant event count.
 
-GridGain mode on modern JDKs requires JVM module flags. The
+MariaDB GridGain mode on modern JDKs requires JVM module flags. The
 `scripts/run-gridgain-demo.ps1` helper sets those flags before starting
-GridGain mode.
+MariaDB GridGain mode.
 
 ## Design Goals
 
@@ -362,7 +362,7 @@ This reference implementation was built around a few core architectural principl
 
 - Preserve all security-relevant events.
 - Reduce repetitive benign telemetry before SIEM ingestion.
-- Separate event transport (Kafka) from distributed reduction state (GridGain 8).
-- Demonstrate distributed processing using a lightweight embedded GridGain 8 cluster.
+- Separate event transport (Kafka) from distributed reduction state (MariaDB GridGain 8).
+- Demonstrate distributed processing using a lightweight embedded MariaDB GridGain 8 cluster.
 - Keep the implementation dependency-light and easy to run locally.
 - Validate the reference architecture before introducing production deployment concerns.
